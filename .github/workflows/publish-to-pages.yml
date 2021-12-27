@@ -34,5 +34,11 @@ jobs:
     - name: Generate html files
       run: npm run env -- dendron-cli buildSite --wsRoot . --stage prod
 
-    - name: Display results
-      run: ls -R docs
+    - name: Deploy results
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: pages
+        publish_dir: docs/
+        force_orphan: true
+        enable_jekyll: false
