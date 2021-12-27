@@ -1,0 +1,38 @@
+---
+name: Publish to GitHub pages
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        path: vault
+
+    - name: Init npm
+      run: npm init -y
+
+    - name: Install dendron-cli
+      run: npm install @dendronhq/dendron-cli
+
+    - name: Setup dendron workspace config
+      run: npm run env -- dendron-cli workspace init --wsRoot .
+
+    - name: Update dendron.yml for publishing
+      uses: mikefarah/yq@master
+      with:
+        cmd: "yq eval -i '.site.siteUrl = env(SITE_URL) | .workspace.vaults += [{ \"fsPath\": \"vault\" }]' dendron.yml"
+      env:
+        SITE_URL: https://zanloy.github.io/notes-development
+
+    - name: Generate html files
+      run: npm run env -- dendron-cli buildSite --wsRoot . --stage prod
+
+    - name: Display results
+      run: ls -R docs
