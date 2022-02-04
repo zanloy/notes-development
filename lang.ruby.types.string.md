@@ -2,7 +2,7 @@
 id: i53GWC2BpQBEoTNuX0hfF
 title: String
 desc: ''
-updated: 1640607121143
+updated: 1640743426198
 created: 1640571053818
 ---
 ## Construct
@@ -15,6 +15,17 @@ puts "I love #{myvar}!"
 # output: I love breakfast!
 puts 'I love #{myvar}!'
 # output: I love #{myvar}!
+```
+
+## Convention
+
+The Ruby convention is to use double quotes only when you are using [[interpolation|#interpolation]] and single quotes when it is a string literal.
+
+```ruby
+# good
+myvar = 'a good person'
+# also good
+also_my_var = "I always try to be #{myvar}."
 ```
 
 ## Concatenation
